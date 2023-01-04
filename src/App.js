@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import SearchBar from './components/searchBar';
+
 const people = [
   {
     id: 'people-01',
@@ -68,9 +71,52 @@ const emails = [
 ]
 
 function App() {
+  const [data, setData] = useState([...people, ...calendar, ...emails]);
+
+  const [selection, setSelection] = useState(null);
+  const [currentOption, setCurrentOption] = useState('all')
+  const [count, setCount] = useState(0)
+
+  function handleClick (e){
+    const op = e.target.name;
+
+    switch (op) {
+      case 'all':
+          setData([...people, ...calendar, ...emails])
+          setCurrentOption('all');
+        break;
+      case 'people':
+          setData([...people])
+          setCurrentOption('people');
+        break;
+      case 'calendar':
+          setData([...calendar])
+          setCurrentOption('calendar');
+        break;
+      case 'emails':
+          setData([...emails])
+          setCurrentOption('emails');
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   return (
     <div>
-      hola mundus
+      <button onClick={handleClick} name='all'>All</button>
+      <button onClick={handleClick} name='people'>People</button>
+      <button onClick={handleClick} name='calendar'>calendar</button>
+      <button onClick={handleClick} name='emails'>emails</button>
+      <button onClick={()=>setCount(count + 1)} name='emails'>{count}</button>
+
+
+      <SearchBar items={data} onItemSelected={()=>{}}/>
+
+      {/* <div>
+        {data.map(item=> <div key={item.id}> {item.title} </div> )}
+      </div> */}
     </div>
   );
 }
