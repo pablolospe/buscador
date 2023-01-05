@@ -1,6 +1,21 @@
 import { useState } from 'react';
 import SearchBar from './components/searchBar';
 
+import styled from 'styled-components';
+
+const Button = styled.button`
+padding: 10px;
+border-radius: 5px;
+border: none;
+background-color: white;
+border: solid 1px #ccc;
+cursor: pointer;
+
+&:hover{
+  background-color: #efefef;
+}
+`;
+
 const people = [
   {
     id: 'people-01',
@@ -75,7 +90,6 @@ function App() {
 
   const [selection, setSelection] = useState(null);
   const [currentOption, setCurrentOption] = useState('all')
-  const [count, setCount] = useState(0)
 
   function handleClick (e){
     const op = e.target.name;
@@ -103,16 +117,20 @@ function App() {
     }
   }
 
+  function handleItemSelected(item){
+    setSelection(item);
+  };
+
   return (
     <div>
-      <button onClick={handleClick} name='all'>All</button>
-      <button onClick={handleClick} name='people'>People</button>
-      <button onClick={handleClick} name='calendar'>calendar</button>
-      <button onClick={handleClick} name='emails'>emails</button>
-      <button onClick={()=>setCount(count + 1)} name='emails'>{count}</button>
+      <Button onClick={handleClick} name='all'>All</Button>
+      <Button onClick={handleClick} name='people'>People</Button>
+      <Button onClick={handleClick} name='calendar'>calendar</Button>
+      <Button onClick={handleClick} name='emails'>emails</Button>
+      
 
-
-      <SearchBar items={data} onItemSelected={()=>{}}/>
+      {selection ? <div>You selected: {selection.title}</div> : '' }
+      <SearchBar items={data} onItemSelected={handleItemSelected}/>
 
       {/* <div>
         {data.map(item=> <div key={item.id}> {item.title} </div> )}
